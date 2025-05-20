@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <title>Опрос</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Какой ваш любимый язык программирования?</h1>
+    <form method="POST" action="/">
+        <label>
+            <input type="radio" name="language" value="Python" required>
+            Python
+        </label><br>
+        <label>
+            <input type="radio" name="language" value="JavaScript">
+            JavaScript
+        </label><br>
+        <label>
+            <input type="radio" name="language" value="Java">
+            Java
+        </label><br>
+        <label>
+            <input type="radio" name="language" value="C++">
+            C++
+        </label><br><br>
+        <button type="submit">Отправить</button>
+    </form>
+</body>
+</html>
