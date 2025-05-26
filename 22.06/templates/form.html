@@ -1,0 +1,185 @@
+<!-- templates/form.html -->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <title>Форма пользователя</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f4f8;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+        }
+
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        fieldset {
+            border: none;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        legend {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        label {
+            font-weight: 600;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 8px 12px;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:hover,
+        input[type="email"]:hover,
+        input[type="number"]:hover,
+        select:hover {
+            border-color: #007BFF;
+        }
+
+        input[type="radio"] {
+            margin-right: 8px;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 20px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        button[type="submit"] {
+            padding: 12px 30px;
+            background-color: #007BFF;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+
+        .result {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .result h2 {
+            margin-top: 0;
+        }
+
+        @media(max-width: 600px){
+            form {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Форма пользователя</h1>
+    <form method="get" action="/">
+        <fieldset>
+            <legend>Личные данные</legend>
+            <label for="name">Имя:</label>
+            <input type="text" id="name" name="name" placeholder="Введите имя" value="{{ data.name }}" required />
+
+            <label for="surname">Фамилия:</label>
+            <input type="text" id="surname" name="surname" placeholder="Введите фамилию" value="{{ data.surname }}" required />
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" placeholder="example@mail.com" value="{{ data.email }}" required />
+
+            <label for="age">Возраст:</label>
+            <input type="number" id="age" name="age" min="0" max="120" placeholder="Ваш возраст" value="{{ data.age }}" required />
+
+            <label>Пол:</label>
+            <div class="radio-group">
+                <label><input type="radio" name="gender" value="Мужской" {% if data.gender=='Мужской' %}checked{% endif %}> Мужской</label>
+                <label><input type="radio" name="gender" value="Женский" {% if data.gender=='Женский' %}checked{% endif %}> Женский</label>
+                <label><input type="radio" name="gender" value="Другой" {% if data.gender=='Другой' %}checked{% endif %}> Другой</label>
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend>Увлечения</legend>
+            <div class="checkbox-group">
+                <label><input type="checkbox" name="hobbies" value="Музыка" {% if 'Музыка' in data.hobbies %}checked{% endif %}> Музыка</label>
+                <label><input type="checkbox" name="hobbies" value="Кино" {% if 'Кино' in data.hobbies %}checked{% endif %}> Кино</label>
+                <label><input type="checkbox" name="hobbies" value="Спорт" {% if 'Спорт' in data.hobbies %}checked{% endif %}> Спорт</label>
+                <label><input type="checkbox" name="hobbies" value="Чтение" {% if 'Чтение' in data.hobbies %}checked{% endif %}> Чтение</label>
+                <label><input type="checkbox" name="hobbies" value="Путешествия" {% if 'Путешествия' in data.hobbies %}checked{% endif %}> Путешествия</label>
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend>Город</legend>
+            <select name="city" required>
+                <option value="">Выберите город</option>
+                <option value="Москва" {% if data.city=='Москва' %}selected{% endif %}>Москва</option>
+                <option value="Санкт-Петербург" {% if data.city=='Санкт-Петербург' %}selected{% endif %}>Санкт-Петербург</option>
+                <option value="Новосибирск" {% if data.city=='Новосибирск' %}selected{% endif %}>Новосибирск</option>
+                <option value="Екатеринбург" {% if data.city=='Екатеринбург' %}selected{% endif %}>Екатеринбург</option>
+                <option value="Казань" {% if data.city=='Казань' %}selected{% endif %}>Казань</option>
+            </select>
+        </fieldset>
+
+        <button type="submit">Отправить</button>
+    </form>
+
+    {% if data.name or data.surname or data.email %}
+    <div class="result">
+        <h2>Переданные данные</h2>
+        <p><strong>Имя:</strong> {{ data.name }}</p>
+        <p><strong>Фамилия:</strong> {{ data.surname }}</p>
+        <p><strong>Email:</strong> {{ data.email }}</p>
+        <p><strong>Возраст:</strong> {{ data.age }}</p>
+        <p><strong>Пол:</strong> {{ data.gender }}</p>
+        <p><strong>Увлечения:</strong> {{ data.hobbies | join(', ') }}</p>
+        <p><strong>Город:</strong> {{ data.city }}</p>
+    </div>
+    {% endif %}
+</div>
+</body>
+</html>
