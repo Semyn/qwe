@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Форма регистрации</title>
+</head>
+<body>
+    <h1>Зарегистрироваться</h1>
+    <form action="{{ url_for('submit') }}" method="post">
+        <label>Имя:</label>
+        <input type="text" name="name" required><br><br>
+        <label>Email:</label>
+        <input type="email" name="email" required><br><br>
+        <label>Возраст:</label>
+        <input type="number" name="age" min="1" max="120" required><br><br>
+        <button type="submit">Отправить</button>
+    </form>
+</body>
+</html>
