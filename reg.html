@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Форма регистрации</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .error {
+            color: red;
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        .valid {
+            border-color: #4CAF50;
+        }
+        .invalid {
+            border-color: #f44336;
+        }
+    </style>
+</head>
+<body>
+    <h1>Регистрация</h1>
+    <form id="registrationForm">
+        <div class="form-group">
+            <label for="username">Юзернейм:</label>
+            <input type="text" id="username" name="username" required>
+            <div class="error" id="usernameError">
+                Юзернейм должен содержать только буквы, цифры, _, -, быть длиной 3-20 символов и не начинаться с цифры или спецсимвола
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="email">Электронная почта:</label>
+            <input type="email" id="email" name="email" required>
+            <div class="error" id="emailError">
+                Введите корректный email (например, user@example.com)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="password">Пароль:</label>
+            <input type="password" id="password" name="password" required>
+            <div class="error" id="passwordError">
+                Пароль должен быть не менее 8 символов, содержать заглавную букву, цифру и спецсимвол
+            </div>
+        </div>
+
+        <button type="submit" id="submitBtn" disabled>Зарегистрироваться</button>
+    </form>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('registrationForm');
+            const usernameInput = document.getElementById('username');
+            const emailInput = document.getElementById('email');
+            const passwordInput = document.getElementById('password');
+            const submitBtn = document.getElementById('submitBtn');
+            
+            function checkFormValidity() {
+                const isUsernameValid = validateUsername(usernameInput.value);
+                const isEmailValid = validateEmail(emailInput.value);
+                const isPasswordValid = validatePassword(passwordInput.value);
+                
+                submitBtn.disabled = !(isUsernameValid && isEmailValid && isPasswordValid);
+            }
+            
+            function validateUsername(username) {
+                const regex = /^[a-zA-Zа-яА-Я][a-zA-Zа-яА-Я0-9_-]{2,19}$/;
+                return regex.test(username);
+            }
+            
+            function validateEmail(email) {
+                const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+                return regex.test(email);
+            }
+            
+            function validatePassword(password) {
+                if (password.length < 8) return false;
+                if (!/[A-Z]/.test(password)) return false;
+                if (!/[0-9]/.test(password)) return false;
+                if (!/[!@#$%^&-_*]/.test(password)) return false;
+                return true;
+            }
+            
+            usernameInput.addEventListener('input', function() {
+                const isValid = validateUsername(this.value);
+                const errorElement = document.getElementById('usernameError');
+                
+                if (isValid) {
+                    this.classList.add('valid');
+                    this.classList.remove('invalid');
+                    errorElement.style.display = 'none';
+                } else {
+                    this.classList.add('invalid');
+                    this.classList.remove('valid');
+                    errorElement.style.display = 'block';
+                }
+                
+                checkFormValidity();
+            });
+            
+            emailInput.addEventListener('input', function() {
+                const isValid = validateEmail(this.value);
+                const errorElement = document.getElementById('emailError');
+                
+                if (isValid) {
+                    this.classList.add('valid');
+                    this.classList.remove('invalid');
+                    errorElement.style.display = 'none';
+                } else {
+                    this.classList.add('invalid');
+                    this.classList.remove('valid');
+                    errorElement.style.display = 'block';
+                }
+                
+                checkFormValidity();
+            });
+            
+            passwordInput.addEventListener('input', function() {
+                const isValid = validatePassword(this.value);
+                const errorElement = document.getElementById('passwordError');
+                
+                if (isValid) {
+                    this.classList.add('valid');
+                    this.classList.remove('invalid');
+                    errorElement.style.display = 'none';
+                } else {
+                    this.classList.add('invalid');
+                    this.classList.remove('valid');
+                    errorElement.style.display = 'block';
+                }
+                
+                checkFormValidity();
+            });
+            
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                if (!submitBtn.disabled) {
+                    alert('Форма успешно отправлена!');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
