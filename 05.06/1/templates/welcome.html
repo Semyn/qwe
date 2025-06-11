@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Добро пожаловать</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="welcome-container">
+        <h1>Добро пожаловать, {{ username }}!</h1>
+        
+        {% if role == 'admin' %}
+            <div class="alert alert-success">
+                <h2>У вас права администратора</h2>
+                <p>Вы можете управлять системой и пользователями</p>
+            </div>
+        {% else %}
+            <div class="alert alert-info">
+                <h2>У вас стандартные права пользователя</h2>
+                <p>Вы можете просматривать контент и редактировать свой профиль</p>
+            </div>
+        {% endif %}
+        
+        <a href="{{ url_for('logout') }}" class="btn">Выйти</a>
+    </div>
+</body>
+</html>

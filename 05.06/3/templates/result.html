@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация завершена</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .registration-result {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #4CAF50;
+        }
+        .user-data {
+            margin-top: 20px;
+        }
+        .data-row {
+            display: flex;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        .data-label {
+            font-weight: bold;
+            width: 200px;
+        }
+        .thank-you {
+            margin-top: 20px;
+            font-style: italic;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="registration-result">
+        <h1>Спасибо за регистрацию!</h1>
+        <p>Ваши данные успешно получены:</p>
+        
+        <div class="user-data">
+            <div class="data-row">
+                <div class="data-label">Имя:</div>
+                <div>{{ user_data.first_name }}</div>
+            </div>
+            <div class="data-row">
+                <div class="data-label">Фамилия:</div>
+                <div>{{ user_data.last_name }}</div>
+            </div>
+            <div class="data-row">
+                <div class="data-label">Возраст:</div>
+                <div>{{ user_data.age }}</div>
+            </div>
+            <div class="data-row">
+                <div class="data-label">Email:</div>
+                <div>{{ user_data.email }}</div>
+            </div>
+            <div class="data-row">
+                <div class="data-label">Пол:</div>
+                <div>{{ user_data.gender }}</div>
+            </div>
+            <div class="data-row">
+                <div class="data-label">Адрес доставки:</div>
+                <div>{{ user_data.address }}</div>
+            </div>
+            <div class="data-row">
+                <div class="data-label">Подписка на новости:</div>
+                <div>{{ user_data.subscribe }}</div>
+            </div>
+        </div>
+        
+        <div class="thank-you">
+            <p>Благодарим вас за регистрацию в нашем интернет-магазине!</p>
+            {% if user_data.subscribe == 'Да' %}
+            <p>Вы подписаны на наши новости и специальные предложения.</p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Калькулятор трех чисел</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .radio-group {
+            margin: 15px 0;
+        }
+        .radio-option {
+            margin: 5px 0;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+        }
+        .error {
+            color: red;
+            margin-top: 5px;
+        }
+        .tab {
+            display: none;
+        }
+        .tab.active {
+            display: block;
+        }
+        .tab-buttons {
+            margin-bottom: 15px;
+        }
+        .tab-button {
+            padding: 8px 15px;
+            background: #eee;
+            border: none;
+            cursor: pointer;
+        }
+        .tab-button.active {
+            background: #4CAF50;
+            color: white;
+        }
+        .number-inputs {
+            display: flex;
+            gap: 10px;
+        }
+        .number-inputs input {
+            width: 30%;
+        }
+    </style>
+</head>
+<body>
+    <h1>Калькулятор трех чисел</h1>
+    
+    {% if error %}
+        <div class="error">{{ error }}</div>
+    {% endif %}
+    
+    <form method="POST">
+        <div class="tab-buttons">
+            <button type="button" class="tab-button active" onclick="switchTab('single')">Одно поле</button>
+            <button type="button" class="tab-button" onclick="switchTab('multiple')">Три поля</button>
+        </div>
+        
+        <input type="hidden" name="input_method" id="input_method" value="single">
+        
+        <div id="single-tab" class="tab active">
+            <div class="form-group">
+                <label for="numbers">Введите три числа через пробел:</label>
+                <input type="text" id="numbers" name="numbers" 
+                       value="{% if numbers %}{{ ' '.join(numbers|map('string')) }}{% endif %}"
+                       placeholder="Например: 5 10 15">
+            </div>
+        </div>
+        
+        <div id="multiple-tab" class="tab">
+            <div class="form-group">
+                <label>Введите три числа:</label>
+                <div class="number-inputs">
+                    <input type="number" name="num1" placeholder="Число 1" step="any"
+                           value="{% if numbers %}{{ numbers[0] }}{% endif %}">
+                    <input type="number" name="num2" placeholder="Число 2" step="any"
+                           value="{% if numbers %}{{ numbers[1] }}{% endif %}">
+                    <input type="number" name="num3" placeholder="Число 3" step="any"
+                           value="{% if numbers %}{{ numbers[2] }}{% endif %}">
+                </div>
+            </div>
+        </div>
+        
+        <div class="radio-group">
+            <label>Выберите операцию:</label>
+            <div class="radio-option">
+                <input type="radio" id="min" name="operation" value="min" 
+                       {% if operation == 'min' %}checked{% endif %}>
+                <label for="min">Минимум из трёх</label>
+            </div>
+            <div class="radio-option">
+                <input type="radio" id="max" name="operation" value="max"
+                       {% if operation == 'max' %}checked{% endif %}>
+                <label for="max">Максимум из трёх</label>
+            </div>
+            <div class="radio-option">
+                <input type="radio" id="avg" name="operation" value="avg"
+                       {% if operation == 'avg' %}checked{% endif %}>
+                <label for="avg">Среднеарифметическое из трёх</label>
+            </div>
+        </div>
+        
+        <button type="submit">Вычислить</button>
+    </form>
+    
+    {% if result is not none %}
+    <div class="result">
+        <h2>Результат:</h2>
+        <p>
+            {% if operation == 'min' %}
+                Минимальное число: {{ result }}
+            {% elif operation == 'max' %}
+                Максимальное число: {{ result }}
+            {% elif operation == 'avg' %}
+                Среднее арифметическое: {{ "%.2f"|format(result) }}
+            {% endif %}
+        </p>
+        <p>Исходные числа: {{ numbers|join(', ') }}</p>
+    </div>
+    {% endif %}
+    
+    <script>
+        function switchTab(tabName) {
+            document.getElementById('single-tab').classList.remove('active');
+            document.getElementById('multiple-tab').classList.remove('active');
+            document.getElementById(tabName + '-tab').classList.add('active');
+            
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            document.getElementById('input_method').value = tabName;
+        }
+    </script>
+</body>
+</html>

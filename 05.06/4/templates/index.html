@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>День программиста</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #4CAF50;
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+        }
+        .error {
+            color: red;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>День программиста</h1>
+        <p>День программиста отмечается в 256-й день года (13 или 12 сентября)</p>
+        
+        <form method="POST">
+            <div class="form-group">
+                <label for="year">Введите год:</label>
+                <input type="text" id="year" name="year" 
+                       value="{{ year if year else '' }}"
+                       placeholder="Например: 2021">
+            </div>
+            
+            <button type="submit">Рассчитать</button>
+        </form>
+        
+        {% if result %}
+        <div class="result">
+            <h2>Результат:</h2>
+            <p>В {{ year }} году День программиста - {{ result }}</p>
+        </div>
+        {% elif year and not result %}
+        <div class="error">
+            Пожалуйста, введите корректный год (например: 2021)
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
