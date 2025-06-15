@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="mb-4">Все отзывы</h1>
+
+{% if feedbacks %}
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Имя</th>
+                <th>Email</th>
+                <th>Сообщение</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for feedback in feedbacks %}
+            <tr>
+                <td>{{ feedback.id }}</td>
+                <td>{{ feedback.name }}</td>
+                <td>{{ feedback.email }}</td>
+                <td>{{ feedback.message }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div class="alert alert-info">Пока нет ни одного отзыва.</div>
+{% endif %}
+{% endblock %}

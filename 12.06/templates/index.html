@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="mb-4">Добро пожаловать!</h1>
+<p>Это простое приложение для сбора обратной связи.</p>
+<a href="{{ url_for('feedback') }}" class="btn btn-primary">Оставить отзыв</a>
+{% endblock %}
