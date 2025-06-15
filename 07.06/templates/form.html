@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block page_content %}
+<h1>Форма ввода</h1>
+<form method="POST">
+    <div class="form-group">
+        <label for="name">Имя</label>
+        <input type="text" class="form-control" id="name" name="name" placeholder="Введите ваше имя">
+    </div>
+    <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" class="form-control" id="email" name="email" placeholder="Введите ваш email">
+    </div>
+    <button type="submit" class="btn btn-success">Отправить</button>
+</form>
+{% endblock %}
